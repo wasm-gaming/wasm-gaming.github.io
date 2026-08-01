@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WASM Gaming — High-Performance WebAssembly Retro Emulation & Engine Ecosystem</title>
+  <meta name="description" content="An open-source ecosystem of retro video game emulators, decompiled game engines, and client-side ROM management tools powered by WebAssembly.">
+  
+  <!-- Open Graph / Social Meta -->
+  <meta property="og:title" content="WASM Gaming — WebAssembly Retro Gaming Ecosystem">
+  <meta property="og:description" content="High-performance, audio-clocked retro emulators (SNES, GBA, Neo Geo, Arcade) and decompiled engines (Sonic, Celeste, Mario) running 100% in your browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://wasm-gaming.github.io/">
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./css/styles.css">
+  
+  <!-- Favicon SVG -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238b5cf6'><path d='M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>">
+</head>
+<body>
+
+  <!-- Background Animated Layer -->
+  <canvas id="bg-canvas"></canvas>
+  <div class="bg-radial-gradient"></div>
+
+  <!-- Navigation Header -->
+  <header class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        </div>
+        <span class="brand-text">WASM<span>GAMING</span></span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#featured" class="nav-link">Featured</a></li>
+          <li><a href="#catalog" class="nav-link">Ecosystem</a></li>
+          <li><a href="#architecture" class="nav-link">Architecture</a></li>
+          <li><a href="#quickstart" class="nav-link">SDK Contract</a></li>
+          <li>
+            <a href="https://github.com/wasm-gaming" target="_blank" rel="noopener" class="btn-github">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+              GitHub Org
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-badge">
+        <span class="pulse-dot"></span>
+        Zero Backend • Pure WebAssembly • Audio Clocked
+      </div>
+      <h1 class="hero-title">Next-Gen Retro Emulation & Engine SDKs</h1>
+      <p class="hero-subtitle">
+        A suite of high-performance WebAssembly game engines, emulators, and client-side ROM collection tools. Standardized with unified SDK contracts and zero server overhead.
+      </p>
+      
+      <div class="hero-actions">
+        <a href="#catalog" class="btn-primary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          Explore Catalog
+        </a>
+        <a href="https://wasm-gaming.github.io/rom-manager/" target="_blank" rel="noopener" class="btn-secondary">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+          Launch ROM Manager
+        </a>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" data-target="13">0</div>
+          <div class="stat-label">Repositories</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="6">0</div>
+          <div class="stat-label">WASM Emulators</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="5">0</div>
+          <div class="stat-label">Game Engine Ports</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" data-target="100" data-suffix="%">0%</div>
+          <div class="stat-label">Client-Side Privacy</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Section -->
+    <section id="featured">
+      <div class="section-title-wrap">
+        <span class="section-tag">// Core Projects</span>
+        <h2 class="section-title">Flagship Applications & Specifications</h2>
+      </div>
+
+      <div class="featured-grid">
+        <!-- ROM Manager -->
+        <div class="featured-card">
+          <div>
+            <div class="featured-header">
+              <span class="featured-badge">Web Application</span>
+              <span class="version-tag">v0.1.7</span>
+            </div>
+            <h3>ROM Manager</h3>
+            <p>
+              A client-side web application ("mp3tag for retro games") that organizes your ROM collection using the File System Access API. Groups variants by DAT hash matching (No-Intro / Redump), attaches cover art, and manages local metadata with zero server upload.
+            </p>
+            <div class="tag-list">
+              <span class="tag">TypeScript</span>
+              <span class="tag">React</span>
+              <span class="tag">File System Access API</span>
+              <span class="tag">MiSTer FPGA</span>
+              <span class="tag">No-Intro DATs</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a href="https://wasm-gaming.github.io/rom-manager/" target="_blank" rel="noopener" class="btn-card-launch">
+              Launch ROM Manager
+            </a>
+            <a href="https://github.com/wasm-gaming/rom-manager" target="_blank" rel="noopener" class="btn-card-repo" title="Source Code">
+              GitHub
+            </a>
+          </div>
+        </div>
+
+        <!-- Engine Specs -->
+        <div class="featured-card" style="border-color: rgba(6, 182, 212, 0.4);">
+          <div>
+            <div class="featured-header">
+              <span class="featured-badge" style="background: rgba(6, 182, 212, 0.2); border-color: var(--cyan); color: #a5f3fc;">Standardization</span>
+              <span class="version-tag">v0.2.5</span>
+            </div>
+            <h3>Engine Specs SDK</h3>
+            <p>
+              The unified contract surface for the entire ecosystem (`@wasm-gaming/engine-specs`). Guarantees every emulator and game engine exposes a strict `EngineSDK` = `{ manifest, load }` interface with typed options, VFS asset mounting, and audio-clocked lifecycle APIs.
+            </p>
+            <div class="tag-list">
+              <span class="tag">TypeScript Types</span>
+              <span class="tag">JSON Schema</span>
+              <span class="tag">Zod Validator</span>
+              <span class="tag">EngineSDK Contract</span>
+            </div>
+          </div>
+          <div class="card-actions">
+            <a href="https://github.com/wasm-gaming/engine-specs" target="_blank" rel="noopener" class="btn-card-launch" style="background: var(--cyan);">
+              View Engine Specs
+            </a>
+            <a href="https://github.com/wasm-gaming/engine-specs" target="_blank" rel="noopener" class="btn-card-repo" title="Source Code">
+              GitHub
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Catalog & Interactive Grid Section -->
+    <section id="catalog">
+      <div class="section-title-wrap">
+        <span class="section-tag">// Project Directory</span>
+        <h2 class="section-title">WebAssembly Engine Catalog</h2>
+      </div>
+
+      <div class="catalog-controls">
+        <div class="search-box">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="search-input" class="search-input" placeholder="Search by system (SNES, GBA, Arcade), language (C++, Rust), or project name...">
+        </div>
+
+        <div class="filter-tabs" id="filter-tabs">
+          <button class="filter-btn active" data-category="all">All Projects</button>
+          <button class="filter-btn" data-category="emulators">Emulators</button>
+          <button class="filter-btn" data-category="ports">Decompiled Game Engines</button>
+          <button class="filter-btn" data-category="tools">Tools & Specs</button>
+        </div>
+      </div>
+
+      <div id="catalog-grid" class="catalog-grid">
+        <!-- Rendered dynamically by app.js -->
+      </div>
+    </section>
+
+    <!-- Technical Architecture Section -->
+    <section id="architecture" class="features-section">
+      <div class="section-title-wrap">
+        <span class="section-tag">// Technical Principles</span>
+        <h2 class="section-title">Built for Performance & Privacy</h2>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h4>Audio-Clocked Frame Loop</h4>
+          <p>No ASYNCIFY bloat or emulated GL. Frame pacing is driven by AudioWorklet ring buffers (~90ms queued), locking emulator speed precisely to audio hardware with zero pitch drift.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <h4>100% Client-Side Privacy</h4>
+          <p>Your games and files stay on your machine. Using WebAssembly and the File System Access API, zero ROM bytes or user telemetry are ever uploaded to an external server.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          </div>
+          <h4>Unified Engine SDK Contract</h4>
+          <p>All engines conform to <code>@wasm-gaming/engine-specs</code>. Switch between Snes9x, mGBA, FBNeo, or RSDKv4 without changing host application control code.</p>
+        </div>
+
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          </div>
+          <h4>Dynamic Asset Mounting</h4>
+          <p>Engines do not bake game data into WASM binaries. Hosts supply game ROMs or <code>Data.rsdk</code> files dynamically into Virtual Filesystems (VFS/OPFS) at runtime.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Developer Quick Start / Code Snippet Section -->
+    <section id="quickstart" class="code-section">
+      <div class="code-header">
+        <div>
+          <span class="section-tag" style="margin-bottom: 0.2rem;">// Integration Surface</span>
+          <h3 style="font-size: 1.4rem; color: #fff;">Consuming WASM Engines in JavaScript / TypeScript</h3>
+        </div>
+        <div class="code-tabs">
+          <button class="code-tab active" data-snippet="snes">Snes9x (SNES)</button>
+          <button class="code-tab" data-snippet="rsdk">RSDKv4 (Sonic 1 & 2)</button>
+          <button class="code-tab" data-snippet="rust">jgenesis (Rust)</button>
+        </div>
+      </div>
+
+      <div style="position: relative;">
+        <pre class="code-block"><code id="code-display">// Select a snippet above</code></pre>
+        <button id="btn-copy-code" class="btn-copy" style="position: absolute; top: 1rem; right: 1rem;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Code
+        </button>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-brand">
+        <div class="brand-icon" style="width:26px; height:26px;">
+          <svg viewBox="0 0 24 24" style="width:16px; height:16px;"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm3-3c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        </div>
+        <span>WASM Gaming Ecosystem</span>
+      </div>
+
+      <ul class="footer-links">
+        <li><a href="https://github.com/wasm-gaming" target="_blank" rel="noopener">GitHub Organization</a></li>
+        <li><a href="https://wasm-gaming.github.io/rom-manager/" target="_blank" rel="noopener">ROM Manager</a></li>
+        <li><a href="https://github.com/wasm-gaming/engine-specs" target="_blank" rel="noopener">Engine Specs SDK</a></li>
+      </ul>
+
+      <div class="disclaimer">
+        Disclaimer: WASM Gaming is an independent open-source project. All trademarks, game titles, and system names (SNES, Game Boy, Neo Geo, Sega Genesis, Sonic, Mario, Celeste) belong to their respective owners. No proprietary game assets or copyrighted ROMs are hosted or distributed.
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
