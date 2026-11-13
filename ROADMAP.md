@@ -25,7 +25,7 @@ _Last updated: 2026-11-13._
 | rsdkv3 (Sonic CD) | 0.2.0 | ✅ | ✅ | ✅ | boot + pause (game screens) | ✅ Sonic CD | load-game screen: phase B pending |
 | rsdkv5 (Sonic Mania) | 0.2.0 | ✅ | ✅ | ✅ | **load-game (8 slots)** + pause | ✅ Mania | native stage list + save bridge |
 | fbneo (arcade) | 0.2.0 | ✅ | ✅ | ✅ | suspend points + pause | ✅ mslug, Gridlee | breaking: `load()` → `FbneoSDK` |
-| blastem (Mega Drive) | 0.2.x | ✅ | ✅ | ✅ | suspend points + pause | — | 120 Hz report parked |
+| blastem (Mega Drive) | 0.1.1 | ✅ | ✅ | ✅ | suspend points + pause | — | 120 Hz report parked |
 | jgenesis | 0.1.1 | ❌ | ❌ | — | — | — | next in priority |
 | celeste | 0.1.6 | ❌ | ❌ | — | — | — | |
 | ppsspp | 0.1.1 | ✅ | ❌ | — | — | — | |
