@@ -4,14 +4,14 @@ Where every engine stands against the shared plan
 ([RECORD/2026-11-12.homogenize-engine-integration.WIP.md](RECORD/2026-11-12.homogenize-engine-integration.WIP.md)),
 and what comes next. Each repo's own `RECORD/` has the details; this page is the map.
 
-_Last updated: 2026-11-15._
+_Last updated: 2026-11-16._
 
 ## The target, per engine
 
 1. **Contract 1.0** — `EngineSDKBase` / `EnginePlayBase` from `@wasm-gaming/engine-specs`, a
    self-contained ESM package (the contract's runtime beside the SDK, no import map).
 2. **Own storage folder** — saves under OPFS `<engine>/<namespace>/` (`storagePath()`).
-3. **Pinned build** — upstream and the emsdk image pinned; every source patch checks it applied.
+3. **Pinned build** — upstream and the emsdk image pinned (never `emsdk:latest`); every source patch checks it applied.
 4. **Engine app** — `<engine>/app/app.js` (`EngineApp`): the engine's own start / load-game and
    pause screens on the shared usability scheme (engine-specs `UX.md`, `createInput()`).
 5. **Verified with real data** — the owner's test ROMs / data packs (private `test-roms`).
@@ -20,15 +20,15 @@ _Last updated: 2026-11-15._
 
 | Engine | Released | Branch / PR | 1.0 | Storage | Pinned | App | Real data | Notes |
 | --- | --- | --- | :-: | :-: | :-: | --- | :-: | --- |
-| engine-specs | 0.5.0 | engine-specs#5 → 0.5.1 | — | `storagePath` | — | `UX.md`, `createInput()`, `EngineApp`, **touch pad** | — | #5: synthetic keys must not hide the pad |
+| engine-specs | 0.5.1 | — | — | `storagePath` | — | `UX.md`, `createInput()`, `EngineApp`, **touch pad** | — | #5: synthetic keys must not hide the pad |
 | rsdkv4 (Sonic 1/2) | 0.3.3 | — | ✅ | ✅ | ✅ | load-game + pause | partial | options screen pending |
 | rsdkv3 (Sonic CD) | 0.2.2 | — | ✅ | ✅ | ✅ | boot + pause | ✅ Sonic CD | load-game screen: phase B pending |
 | rsdkv5 (Sonic Mania) | 0.2.1 | — | ✅ | ✅ | ✅ | load-game (8 slots) + pause | ✅ Mania | |
 | fbneo (arcade / Neo Geo) | 0.3.2 | — | ✅ | ✅ | ✅ | suspend points + pause, **states in the pause menu** | ✅ mslug, Gridlee | |
 | blastem (Mega Drive) | 0.1.3 | — | ✅ | ✅ | ✅ | suspend points + pause, **states in the pause menu** | ✅ | 120 Hz report parked |
-| snes9x (SNES) | 0.1.1 | **snes9x-wasm#1** → 0.2.0 | ✅ | ✅ | ✅ | suspend points + pause + states | ✅ test ROM | breaking: `load()` → `Snes9xSDK` |
-| jgenesis (MD / SMS / GG / SNES / GBA) | 0.1.1 | **jgenesis-wasm#1** → 0.2.0 | ✅ | ✅ | ✅ upstream 237545e | suspend points + pause + states | test ROM | WebGPU only; states via Rust patch; Docker build not run here |
-| mGBA (GBA / GB / GBC) | 0.1.1 | branch, no PR → 0.2.0 | ✅ | ✅ | ✅ | suspend points + pause + states | ✅ Tetris, SML, GTA, Kirby | breaking: `load()` → `MgbaSDK` |
+| snes9x (SNES) | 0.2.0 | — | ✅ | ✅ | ✅ | suspend points + pause + states | ✅ test ROM | breaking: `load()` → `Snes9xSDK` |
+| jgenesis (MD / SMS / GG / SNES / GBA) | 0.2.1 | — | ✅ | ✅ | ✅ upstream 237545e | suspend points + pause + states | test ROM | WebGPU only; states via Rust patch; Docker build not run here |
+| mGBA (GBA / GB / GBC) | 0.2.1 | — | ✅ | ✅ | ✅ | suspend points + pause + states | ✅ Tetris, SML, GTA, Kirby | breaking: `load()` → `MgbaSDK` |
 | celeste | 0.1.6 | — | ❌ | ❌ | — | — | — | |
 | ppsspp | 0.1.1 | — | ✅ | ❌ | — | — | — | |
 | geolith | 0.1.3 | — | ❌ | ❌ | — | — | — | |
@@ -37,8 +37,8 @@ _Last updated: 2026-11-15._
 
 | App | Released | Branch / PR | Notes |
 | --- | --- | --- | --- |
-| play.germade (launcher) | 0.1.11 | to redo from `main`: 8 commits (SNES, GBA) | `main` pins blastem 0.1.2 / fbneo 0.3.1 and engine-specs `^0.4.1` (touch pad off) |
-| rom-manager | 0.1.8 | branch, no PR → 0.2.0 | OPFS library, add ROMs one by one, folder sync, phone panels |
+| play.germade (launcher) | 0.1.11 | **play.germade#22** | SNES + GBA / GB / GBC, engine-specs `^0.5.1` (touch pad on), every engine at its latest release |
+| rom-manager | 0.2.0 | — | OPFS library, add ROMs one by one, folder sync, phone panels |
 
 Releases bump their own version (`npm version <bump>` in the release workflow): branches keep
 the last released one.
@@ -47,12 +47,9 @@ the last released one.
 
 Ordered: what is ready to ship first, then the work it unlocks.
 
-1. **Ship what is ready** (order in the deploy list below): engine-specs 0.5.1, snes9x 0.2.0,
-   mGBA 0.2.0, jgenesis 0.2.0, rom-manager 0.2.0, then play.germade.
-2. **play.germade** — a new branch from `main`: cherry-pick the SNES / GBA commits of
-   `claude/trusting-davinci-4agutv` (404c1b2, cc8c62a, 34f818b, 29bbbf8, 36e3d8d, e786474,
-   6b38f13, 5d78d80); engine-specs `^0.5.1` (turns the touch pad on); `engines.json`: blastem
-   0.1.3, fbneo 0.3.2, snes9x 0.2.0, mgba 0.2.0; the `snes` and `gba` entries `status: 'ready'`.
+1. **play.germade#22** — merge and release (the rest is out).
+2. **Sonic 3 A.I.R.** — proposal in play.germade `RECORD/2026-11-15.sonic-3-air-integration.WIP.md`:
+   a `sonic3air-wasm` package around the official web build (needs the repo created).
 3. **rom-manager step 3 — mods**: import IPS / BPS / UPS one by one (BPS / UPS find their game by
    the source CRC, IPS by choice), stored with the game; panel 4 lists them; "Jugar con este mod"
    → play.germade `?patch=`. Optional names from the RHDN archive.org export, if the owner fetches it.
@@ -67,15 +64,11 @@ Ordered: what is ready to ship first, then the work it unlocks.
    pin; rsdkv4 options screen).
 9. **engine-specs** — Stage 2 of the 1.0 base class.
 
-## Deploy order (what is ready, 2026-11-15)
+## Deploy order (2026-11-16)
 
-1. **engine-specs#5** → merge, release **patch** (0.5.1, npm).
-2. **snes9x-wasm#1** → merge, release **minor** (0.2.0).
-3. **mGBA-wasm** → open the PR from `claude/trusting-davinci-4agutv`, merge, release **minor** (0.2.0).
-4. **jgenesis-wasm#1** → merge, release **minor** (0.2.0) — its CI runs the Docker build that was
-   not run in the session; check it passes before releasing.
-5. **rom-manager** → PR, merge, release **minor** (0.2.0; deploys its GitHub Pages).
-6. **play.germade** → the new branch of Next §2 (needs 1–3 released), PR, merge, release.
+Released: engine-specs 0.5.1, snes9x 0.2.0 (after snes9x-wasm#2: link with em++, emsdk pinned to
+7.0.0 — `latest` moved to 7 and broke the build), mGBA 0.2.1 (emsdk pinned), jgenesis 0.2.1
+(one coi-serviceworker), rom-manager 0.2.0. Left: **merge play.germade#22 and release it.**
 
 ## Parked
 
