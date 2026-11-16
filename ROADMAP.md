@@ -4,7 +4,7 @@ Where every engine stands against the shared plan
 ([RECORD/2026-11-12.homogenize-engine-integration.WIP.md](RECORD/2026-11-12.homogenize-engine-integration.WIP.md)),
 and what comes next. Each repo's own `RECORD/` has the details; this page is the map.
 
-_Last updated: 2026-11-16._
+_Last updated: 2026-11-17._
 
 ## The target, per engine
 
@@ -37,8 +37,9 @@ _Last updated: 2026-11-16._
 
 | App | Released | Branch / PR | Notes |
 | --- | --- | --- | --- |
-| play.germade (launcher) | 0.1.11 | **play.germade#22** | SNES + GBA / GB / GBC, engine-specs `^0.5.1` (touch pad on), every engine at its latest release |
-| rom-manager | 0.2.0 | — | OPFS library, add ROMs one by one, folder sync, phone panels |
+| play.germade (launcher) | 0.1.13 | **play.germade#24** (open) | `/roms/` = rom-manager 0.4.0 via `roms-sdk.js`, old library moved in on first start, layers, per-box covers + World box, Sonic 3 A.I.R. 0.0.1 |
+| rom-manager | 0.4.0 | — | jq79 UI, layers, mods (IPS / BPS / UPS), `.meta/<System>/index.json`, host mode at `/roms/`, `roms-sdk.js` |
+| sonic3air-wasm | 0.0.1 | — | official web build behind an engine-specs SDK + app; on npm (trusted publishing validated) |
 
 Releases bump their own version (`npm version <bump>` in the release workflow): branches keep
 the last released one.
@@ -47,31 +48,74 @@ the last released one.
 
 Ordered: what is ready to ship first, then the work it unlocks.
 
-1. **play.germade#22** — merge and release (the rest is out).
-2. **Sonic 3 A.I.R.** — proposal in play.germade `RECORD/2026-11-15.sonic-3-air-integration.WIP.md`:
-   a `sonic3air-wasm` package around the official web build (needs the repo created).
-3. **rom-manager step 3 — mods**: import IPS / BPS / UPS one by one (BPS / UPS find their game by
-   the source CRC, IPS by choice), stored with the game; panel 4 lists them; "Jugar con este mod"
-   → play.germade `?patch=`. Optional names from the RHDN archive.org export, if the owner fetches it.
-4. **rom-manager as play.germade's `/roms/`** — built with base `/roms/`, pinned and copied into
-   play.germade's `dist/roms/`; play.germade reads `rom-manager/library/` (layout in rom-manager
-   `STACK.md`); one-time migration of `library/<system>/`; remove play.germade's own manager.
-5. **jgenesis in the launcher** — as the second core for Mega Drive and SNES (`available: true`)
-   once 0.2.0 is out and checked on a device with WebGPU.
-6. **rsdkv3 phase B** — Sonic CD's load-game screen.
-7. **Next engines to 1.0** — celeste; ppsspp (storage); geolith; smbros.
-8. **rsdkv5 / fbneo / rsdkv4 follow-ups** — as before (delete a slot, Encore; CPS sets, FBNeo
+1. **play.germade#24** — merge and release (minor). Done in it: `/roms/` is rom-manager, read
+   through `/roms/roms-sdk.js`; the old `library/` moves in by itself; Sonic 3 A.I.R. playable.
+2. **rom-manager 0.5.0** (new session and branch) — approved, specified in rom-manager
+   `SESSIONS/2026-11-16_02h30…` (extensions 22:50 and 2026-11-17 00:45, and the hand-off at the end):
+   - `roms-sdk.js` `openAddDialog()`: its own modal (shadow root), drop or pick ROMs / zips / mods,
+     each file shown as recognized / already there / unknown / refused / mod for <game> before
+     anything is written.
+   - Covers: follow libretro-thumbnails' symlinked boxarts; the cover frame takes the image's own
+     proportions (measured medians as placeholders).
+   - Then play.germade pins 0.5.0 and its drawer's "Añadir ROMs" opens the modal.
+3. **engine-specs 0.6.0** — the shared base for the engines pass (wasm-gaming.github.io
+   `RECORD/2026-11-16.engine-settings-screen.WIP.md`):
+   - en / es: `Locale`, `Localized`, `localize`, `resolveLocale`, `EngineAppHost.locale`;
+   - settings: `label` / `group` / `valueLabels`, the settings model, `loadSettings` /
+     `saveSettings` (OPFS `settings/<engine>.json`), UX.md "Settings";
+   - controls: remap model and key / button capture;
+   - fullscreen toggle: Cmd+Enter (macOS) / Alt+Enter (Windows, Linux); gamepad Select + Y
+     (proposed);
+   - performance: Wake Lock, FPS / frame-time counter, audio-paced loop helper.
+4. **The engines pass** — one record, PR and release per engine (rsdkv3 / v4 / v5, blastem, fbneo,
+   snes9x, mGBA, jgenesis, sonic3air):
+   - app strings in en / es;
+   - "Ajustes" in the pause menu, with everything each engine supports, grouped Vídeo / Audio /
+     Emulación / Controles;
+   - remapping;
+   - the fullscreen toggle;
+   - performance settings.
+   - Running in a Worker with `OffscreenCanvas` comes later, per engine, where its build allows
+     it.
+   - sonic3air: no "Ajustes" (the game has its own Options); en / es and fullscreen only.
+5. **play.germade en / es** — its UI in both languages, a language choice, `locale` passed to the
+   apps, and every engine bumped to its "Ajustes" release.
+6. **jgenesis in the launcher** — as the second core for Mega Drive and SNES (`available: true`)
+   once checked on a device with WebGPU.
+7. **rsdkv3 phase B** — Sonic CD's load-game screen.
+8. **Next engines to 1.0** — celeste; ppsspp (storage); geolith; smbros.
+9. **rsdkv5 / fbneo / rsdkv4 follow-ups** — as before (delete a slot, Encore; CPS sets, FBNeo
    pin; rsdkv4 options screen).
-9. **engine-specs** — Stage 2 of the 1.0 base class.
+10. **engine-specs** — Stage 2 of the 1.0 base class.
 
-## Deploy order (2026-11-16)
+### Smaller follow-ups
 
-Released: engine-specs 0.5.1, snes9x 0.2.0 (after snes9x-wasm#2: link with em++, emsdk pinned to
-7.0.0 — `latest` moved to 7 and broke the build), mGBA 0.2.1 (emsdk pinned), jgenesis 0.2.1
-(one coi-serviceworker), rom-manager 0.2.0. Left: **merge play.germade#22 and release it.**
+- rom-manager:
+  - deep links into `/roms/` (open a system or a game from the launcher);
+  - titles the player renamed are kept in the file's record, but not yet in the index the
+    launcher reads;
+  - a ROM no DAT knows has no "Jugar" in the grouped view.
+- **Branch clean-up (owner)**: already merged, safe to delete:
+  - `claude/happy-hypatia-jot71i` in blastem, rsdkv3, rsdkv5 and wasm-gaming.github.io;
+  - rsdkv5 `claude/lucid-lovelace-57rijc`;
+  - play.germade `claude/trusting-davinci-4agutv` and `claude/elegant-hawking-f7yuhp` (its plan
+    was rescued into the record);
+  - ppsspp `claude/sessions-chromium-review-vc5y11`.
+
+  The owner's own old branches: rsdkv4 `feat/menu-sonic1-2` ("wip fail") and rsdkv5
+  `approach-a-static-preload`.
+
+## Deploy order (2026-11-17)
+
+Released: sonic3air-wasm 0.0.1 (npm trusted publishing fixed: the publisher had "stage publish"
+only), rom-manager 0.3.0 → 0.3.1 (`-roms` archive) → 0.4.0 (`roms-sdk.js`). Left: **merge
+play.germade#24 and release it**; then rom-manager 0.5.0 and play.germade pinning it.
 
 ## Parked
 
+- **Speed that varies on the same machine** — a page cannot raise its priority; causes are power /
+  heat, the display's refresh rate driving the loop, a busy main thread, a page in the background.
+  The mitigations (Worker, audio pacing, Wake Lock, FPS counter) are in the engines pass above.
 - **blastem at high refresh rates** — reported once, not reproduced (BlastEm's `video` sync is
   tied to the monitor; ours is `audio`). Findings and the candidate fix in blastem-wasm
   `RECORD/2026-11-13.speed-on-high-refresh-monitors.WIP.md`.
